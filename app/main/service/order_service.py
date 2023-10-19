@@ -14,11 +14,12 @@ def update_date():
     return datetime.date.today()
 
 
-def update_driver_status(id):
-    driver = Driver.query.filter_by(order_id=id).first()
+def update_driver_status(order):
+    driver = Driver.query.filter_by(order_id=order.id).first()
     if driver:
         driver.free = True
         driver.order_id = None
+        driver.location = order.delivery_address
         db.session.commit()
 
 
@@ -64,7 +65,7 @@ def update_order_service(id, data: Dict[str, str]) -> Tuple[Dict[str, str], int]
             if cur_order_status != order.status:
                 order.update_status_date = update_date()
             if order.status == 'завершен':
-                update_driver_status(id)
+                update_driver_status(order)
             db.session.commit()
             response_object = {
                 'status': 'success',
@@ -208,7 +209,7 @@ def update_order_status_service(id, data: Dict[str, str]) -> Tuple[Dict[str, str
             order.status = data['status']
             order.update_status_date = update_date()
             if order.status == 'завершен':
-                update_driver_status(id)
+                update_driver_status(order)
             db.session.commit()
             response_object = {
                 'status': 'success',
