@@ -13,6 +13,12 @@ class Order(db.Model):
     cargo_type = db.Column(db.String(40), nullable=False)
     update_status_date = db.Column(db.Date, nullable=False)
 
+    def __init__(self, status: str, stock_address: str, delivery_address: str, cargo_type: str):
+        self.status = status
+        self.stock_address = stock_address
+        self.delivery_address = delivery_address
+        self.cargo_type = cargo_type
+
     def json(self):
         return {'id': self.id, 'status': self.status,
                 'stock_address': self.stock_address,
@@ -29,6 +35,11 @@ class Driver(db.Model):
     free = db.Column(db.Boolean, nullable=False)
     location = db.Column(db.String(120), nullable=False)
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=True)
+
+    def __init__(self, fio: str, free: bool, location: str):
+        self.fio = fio
+        self.free = free
+        self.location = location
 
     def json(self):
         return {'id': self.id, 'fio': self.fio,
