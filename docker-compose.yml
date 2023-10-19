@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  cargo_transportations_app:
+    container_name: cargo_transportations_app
+    image: dockerhub-cargo_transportations_app:1.0.0
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - DB_URL=postgresql://postgres:postgres@flask_postgres_db:5433/postgres
+    depends_on:
+      - flask_postgres_db
+  flask_postgres_db:
+    image: postgres
+    container_name: 'flask_postgres_db'
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
