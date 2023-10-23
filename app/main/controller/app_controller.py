@@ -75,7 +75,7 @@ def delete_driver(id):
     return delete_driver_service(id)
 
 
-@controller_blueprint.route('/api/v1/appoint-order/<int:id>', methods=['POST'])
+@controller_blueprint.route('/api/v1/appoint-order/<int:id>', methods=['GET'])
 def appoint_order(id):
     return appoint_order_service(id)
 
