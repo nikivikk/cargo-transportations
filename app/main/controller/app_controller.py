@@ -5,8 +5,20 @@ from ..service.order_service import create_order_service, get_orders_service, ge
 from ..service.driver_service import create_driver_service, get_drivers_service, get_driver_service, \
     update_driver_service, \
     delete_driver_service
+from migrate_data import migrate_order_data, migrate_driver_data
 
 controller_blueprint = Blueprint('controller', __name__)
+
+@controller_blueprint.route('/')
+def main_page():
+    return 'go to http://127.0.0.1:4000/api/v1/add-seed-data to add seed data'
+
+
+@controller_blueprint.route('/api/v1/add-seed-data')
+def migrate_data():
+    migrate_order_data()
+    migrate_driver_data()
+    return 'Seed data added'
 
 
 @controller_blueprint.route('/api/v1/orders', methods=['POST'])
