@@ -1,18 +1,36 @@
 # cargo-transportations
 Инструкция по запуску приложения:
 
-1)Запустить docker desktop
+1) Запустить docker desktop
 
-2)docker compose up --build
+2) docker compose up --build
 
-3)docker compose up -d
-   
-4)docker exec -it cargo_transportations_app flask db init
+3) docker compose up -d
 
-5)docker exec -it cargo_transportations_app flask db migrate
+4) docker exec -it cargo_transportations_app flask db init
 
-6)docker exec -it cargo_transportations_app flask db upgrade
+5) docker exec -it cargo_transportations_app flask db migrate
 
-7)docker compose up --build --force-recreate
+6) docker exec -it cargo_transportations_app flask db upgrade
 
-8)Перейти по первой ссылке
+7) docker compose up --build --force-recreate
+
+8) Перейти по первой ссылке
+
+Примеры работы приложения:
+
+1) получить все заказы: http://127.0.0.1:4000/api/v1/orders
+2) получить заказ по id: http://127.0.0.1:4000/api/v1/orders/1
+3) добавить новый заказ: http://127.0.0.1:4000/api/v1/orders
+4) обновить заказ по id: http://127.0.0.1:4000/api/v1/orders/2
+5) удалить заказ по id: http://127.0.0.1:4000/api/v1/orders/3
+6) пункты 1-5 можно применить и по отношению к водителю, 
+заменив orders на drivers
+7) получить всех свободных водителей:http://127.0.0.1:4000/api/v1/drivers?free=true
+8) получить все завершенные заказы:http://127.0.0.1:4000/api/v1/orders-status?status=завершен
+9) получить все завершенные заказы за промежуток времени: http://127.0.0.1:4000/api/v1/orders-status?status=завершен&start-date=2023-10-12&end-date=2023-10-25
+10) обновить статус заказа: http://127.0.0.1:4000/api/v1/orders-status/2
+11) получить статус заказа: http://127.0.0.1:4000/api/v1/orders-status/2
+12) назначить заказ по id водителю: http://127.0.0.1:4000/api/v1/appoint-order/1
+13) отчет по выполненным заказам: http://127.0.0.1:4000/api/v1/make-report
+  
