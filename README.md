@@ -5,7 +5,7 @@
 
 2) docker compose up --build
 
-3) docker compose up -d
+3) Открыть второй терминал и запустить следующие команды:
 
 4) docker exec -it cargo_transportations_app flask db init
 
@@ -13,9 +13,7 @@
 
 6) docker exec -it cargo_transportations_app flask db upgrade
 
-7) docker compose up --build --force-recreate
-
-8) Перейти по первой ссылке
+7) Перейти по первой ссылке в первом терминале
 
 Примеры работы приложения:
 
