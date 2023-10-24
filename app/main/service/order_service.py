@@ -8,10 +8,11 @@ import math
 import datetime
 from flask import request
 import pandas as pd
+from sqlalchemy import func
 
 
 def update_date():
-    return datetime.date.today()
+    return datetime.datetime.today()
 
 
 def update_driver_status(order):
@@ -129,7 +130,7 @@ def appoint_order_service(id) -> Tuple[Dict[str, str], int]:
     try:
         order = get_order_service(id)
         drivers = driver_is_free('true')
-        if order and drivers:
+        if order.status == "новый" and drivers:
             appointment_driver = min_distance(order.stock_address, drivers)
             order.status = 'выполняется'
             order.update_status_date = update_date()
@@ -143,6 +144,12 @@ def appoint_order_service(id) -> Tuple[Dict[str, str], int]:
                 'message': f'Driver {appointment_driver.fio} started order {id}'
             }
             return response_object, 200
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': f"You can't appoint driver on order {id}, because order status is {order.status}"
+            }
+            return response_object, 404
     except:
         response_object = {
             'status': 'fail',
@@ -162,8 +169,9 @@ def get_orders_status_service():
 def status_by_date(status):
     start_date = datetime.datetime.strptime(request.args.get('start-date'), "%Y-%m-%d")
     end_date = datetime.datetime.strptime(request.args.get('end-date'), "%Y-%m-%d")
-    orders = Order.query.filter(Order.status == status, Order.update_status_date >= start_date,
-                                Order.update_status_date <= end_date).all()
+    orders = Order.query.filter(Order.status == status,
+                                func.date(Order.update_status_date) >= start_date,
+                                func.date(Order.update_status_date) <= end_date).all()
     return orders
 
 

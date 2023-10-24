@@ -11,7 +11,7 @@ class Order(db.Model):
     stock_address = db.Column(db.String(120), nullable=False)
     delivery_address = db.Column(db.String(120), nullable=False)
     cargo_type = db.Column(db.String(40), nullable=False)
-    update_status_date = db.Column(db.Date, nullable=False)
+    update_status_date = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, status: str, stock_address: str, delivery_address: str, cargo_type: str):
         self.status = status
